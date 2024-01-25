@@ -1,7 +1,8 @@
 import styles from './List.module.scss'
 import Column from '../Column/Column';
 import { useState } from 'react';
-import { useEffect } from 'react';
+import shortid from 'shortid';
+import ColumnForm from '../ColumnForm/ColumnForm';
 
   const List = () => {
 
@@ -11,15 +12,11 @@ import { useEffect } from 'react';
       { id: 3, title: 'Games', icon: 'gamepad' }
     ]);
 
- 
-   useEffect(() => {
 
-    setTimeout(() => {
-        setColumns([...columns, { id: 4, title: 'Test column'}]);
-    }, 2000);
 
-}, []);
-
+  const addColumn = newColumn => {
+		setColumns([...columns, { id: shortid(), title: newColumn.title, icon: newColumn.icon }]);
+};
 
 
     return (
@@ -29,9 +26,8 @@ import { useEffect } from 'react';
           </header>
           <p className={styles.description}>Interesting things I want to check out</p>
           <section className={styles.columns}>
-              
-                {columns.map(column => <Column key={column.id} title={column.title} icon={column.icon} />)}
-
+              {columns.map(column => <Column key={column.id} title={column.title} icon={column.icon} />)}
+              <ColumnForm action={addColumn} />
           </section>
       </div>
     );
